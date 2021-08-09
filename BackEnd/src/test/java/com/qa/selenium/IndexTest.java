@@ -16,28 +16,28 @@ public class IndexTest {
 	
 	private WebDriver driver;
 	
-	@BeforeEach
-	public void setup() {
-		this.driver = new ChromeDriver();
-		this.driver.manage().window().maximize();
-	}
-	
-	@Test
-	public void testCreate() {
-		
-		String testString = "Get coffee";
-		
-		IndexPage index = PageFactory.initElements(driver, IndexPage.class);
-		
-		this.driver.get(index.URL);
-		
-		index.create(testString);
-		
-		assertThat(index.checkTask().toLowerCase().contains(testString));
-	}
-	
-	@AfterEach
-	public void teardown() {
-		this.driver.close();
-	}
+//	@BeforeEach
+//	public void setup() {
+//		this.driver = new ChromeDriver();
+//		this.driver.manage().window().maximize();
+//	}
+//	
+//	@Test
+//	public void testCreate() {
+//		
+//		String testString = "Get coffee";
+//		
+//		IndexPage index = PageFactory.initElements(driver, IndexPage.class);
+//		
+//		this.driver.get(index.URL);
+//		
+//		index.create(testString);
+//		
+//		assertThat(index.checkTask().toLowerCase().contains(testString));
+//	}
+//	
+//	@AfterEach
+//	public void teardown() {
+//		this.driver.close();
+//	}
 }
