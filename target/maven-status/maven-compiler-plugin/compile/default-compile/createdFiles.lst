@@ -1,6 +1,0 @@
-com\qa\controllers\TaskController.class
-com\qa\services\CorsConfiguration.class
-com\qa\TdlDemoApplication.class
-com\qa\services\TaskService.class
-com\qa\models\Task.class
-com\qa\repositories\TaskRepository.class
