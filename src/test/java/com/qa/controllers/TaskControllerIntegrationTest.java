@@ -41,13 +41,9 @@ public class TaskControllerIntegrationTest {
 	private final Task testTask = new Task("Get coffee");
 
 	private final Task testSavedTask = new Task(1L, "Get coffee");
-	
-//	private final Task UPDATE_TEST_TASK = new Task("Read 10 pages");
-//	
-//	private final Task UPDATE_TEST_SAVED_TASK = new Task(2L, "Read 10 pages");
 
 	@Test
-	public void testCreateTask() throws Exception {
+	void testCreateTask() throws Exception {
 		Task task = new Task("Read 10 pages");
 
 		String taskAsJSON = this.mapper.writeValueAsString(task);
@@ -67,14 +63,14 @@ public class TaskControllerIntegrationTest {
 	}
 
 	@Test
-	public void testReadTaskById() throws Exception {
+	void testReadTaskById() throws Exception {
 		 this.mock.perform(get("/task/read/1")).andExpect(status().isOk())
          .andExpect(content().json(this.mapper.writeValueAsString(testSavedTask)));
 
 	}
 
 	@Test
-	public void testReadAll() throws Exception {
+	void testReadAll() throws Exception {
 		List<Task> tasks = new ArrayList<>();
 		tasks.add(testTask);
 
@@ -94,7 +90,7 @@ public class TaskControllerIntegrationTest {
 	}
 
 	@Test
-	public void testUpdateTask() throws Exception {
+	void testUpdateTask() throws Exception {
 				
 		Task updateTask = new Task(1L, "Make coffee");
 
@@ -104,11 +100,7 @@ public class TaskControllerIntegrationTest {
 									put("/task/update/1")
 									.contentType(MediaType.APPLICATION_JSON)
 									.content(updateTaskAsJSON);
-		
-//		Task updatedTask = new Task(1L, "Make coffee");
-//		
-//		String updatedTaskAsJSON = this.mapper.writeValueAsString(updatedTask);
-		
+
 		ResultMatcher matchBody = content().json(updateTaskAsJSON);
 		
 		ResultMatcher matchStatus = status().isOk();
@@ -116,21 +108,8 @@ public class TaskControllerIntegrationTest {
 		this.mock.perform(mockRequest).andExpect(matchBody).andExpect(matchStatus);
 	}
 	
-//	@Test
-//	void testUpdateTask() throws Exception {
-//		final Task newTask = new Task(null, "Chris Perrins");
-//        String resultString = this.mock
-//                .perform(put("/task/update/2").contentType(MediaType.APPLICATION_JSON)
-//                        .content(this.mapper.writeValueAsString(newTask)))
-//                .andExpect(status().isAccepted()).andReturn().getRequest().getContentAsString();
-//
-//        Task result = this.mapper.readValue(resultString, Task.class);
-//        assertThat(result).isEqualTo(newTask);
-//
-//	}
-
 	@Test
-	public void testDelete() throws Exception {
+	void testDelete() throws Exception {
 		this.mock.perform(delete("/task/delete/1")).andExpect(status().isOk());
 
 	}

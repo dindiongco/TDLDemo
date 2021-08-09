@@ -9,12 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.qa.models.Task;
 import com.qa.repositories.TaskRepository;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class TaskServiceUnitTest {
 
 	@MockBean
@@ -29,7 +32,7 @@ public class TaskServiceUnitTest {
 		Task expectedTask = new Task(taskId, "Get coffee");
 
 		Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(expectedTask));
-
+		System.out.println(expectedTask);
 		assertThat(this.taskService.getTaskById(taskId)).isEqualTo(expectedTask);
 
 		Mockito.verify(this.taskRepository, Mockito.times(1)).findById(taskId);
@@ -67,18 +70,21 @@ public class TaskServiceUnitTest {
 
 	@Test
 	void testUpdateUnit() {
-		Long taskId = 1L;
-		Task newTask = new Task(taskId, "Read 10 pages");
-		Task existingTask = new Task(taskId, "Get coffee");
-//		Task updatedTask = new Task(taskId, newTask.getTaskName());
 
-		Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(existingTask));
-		Mockito.when(this.taskRepository.save(newTask)).thenReturn(newTask);
+		Task newTask = new Task(1L, "Read 10 pages");
+		Task existingTask = new Task(1L, "Get coffee");
+		
+		System.out.println(existingTask);
 
-		assertThat(this.taskService.updateTaskById(1L, newTask)).isEqualTo(newTask);
+		Mockito.when(this.taskRepository.findById(1L)).thenReturn(Optional.of(newTask));
+		Mockito.when(this.taskRepository.saveAndFlush(existingTask)).thenReturn(existingTask);
+		
+		System.out.println(existingTask);
+		
+		assertThat(existingTask).isEqualTo(this.taskService.updateTaskById(1L, newTask));
 
-		Mockito.verify(this.taskRepository, Mockito.times(1)).findById(taskId);
-		Mockito.verify(this.taskRepository, Mockito.times(1)).save(newTask);
+		Mockito.verify(this.taskRepository, Mockito.times(1)).findById(1L);
+		Mockito.verify(this.taskRepository, Mockito.times(1)).saveAndFlush(existingTask);
 	}
 
 	@Test
@@ -87,7 +93,7 @@ public class TaskServiceUnitTest {
 
 		Mockito.when(this.taskRepository.existsById(testId)).thenReturn(false);
 		
-		assertThat(this.taskService.deleteTaskById(testId)).isTrue();
+		assertThat(this.taskService.deleteTaskById(testId)).isEqualTo(testId + " has been deleted.");
 
 		Mockito.verify(this.taskRepository, Mockito.times(1)).existsById(testId);
 	}

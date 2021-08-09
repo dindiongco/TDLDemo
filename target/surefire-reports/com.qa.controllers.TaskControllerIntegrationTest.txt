@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.qa.controllers.TaskControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.715 s - in com.qa.controllers.TaskControllerIntegrationTest

@@ -1,5 +1,7 @@
 package com.qa.models;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,6 +41,29 @@ public class Task {
 
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(taskId, taskName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Task other = (Task) obj;
+//		return Objects.equals(taskId, other.taskId) && Objects.equals(taskName, other.taskName);
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Task [taskId=" + taskId + ", taskName=" + taskName + "]";
 	}
 	
 	

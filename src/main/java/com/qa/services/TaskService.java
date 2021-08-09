@@ -37,10 +37,7 @@ public class TaskService {
 	}
 
 	public Task updateTaskById(Long taskId, Task task) {
-		if (!taskRepository.existsById(taskId))
-			throw new EntityNotFoundException();
-
-		Task taskInDb = taskRepository.getById(taskId);
+		Task taskInDb = taskRepository.findById(taskId).get();
 
 		taskInDb.setTaskName(task.getTaskName());
 
@@ -48,10 +45,13 @@ public class TaskService {
 		return updatedTask;
 	}
 
-	public void deleteTaskById(Long taskId) {
-		if (!taskRepository.existsById(taskId))
-			throw new EntityNotFoundException();
-
+	public String deleteTaskById(Long taskId) {
 		taskRepository.deleteById(taskId);
+		if (taskRepository.existsById(taskId)) {
+			return "Not deleted" + taskId;
+		}
+		else {
+			return taskId + " has been deleted.";
+		}
 	}
 }
